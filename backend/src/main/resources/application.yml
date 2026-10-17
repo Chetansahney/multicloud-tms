@@ -94,7 +94,7 @@ app:
       AZURE: [eastasia, koreacentral]
     github:                                      # used by the GITHUB_ACTIONS runner
       token: ${DEPLOY_GITHUB_TOKEN:}
-      repository: ${DEPLOY_GITHUB_REPOSITORY:sahilsahni18/multicloud-tms}
+      repository: ${DEPLOY_GITHUB_REPOSITORY:Chetansahney/multicloud-tms}
       workflow: ${DEPLOY_GITHUB_WORKFLOW:provision.yml}
       ref: ${DEPLOY_GITHUB_REF:main}
       callback-url: ${DEPLOY_CALLBACK_URL:}      # public URL of this backend

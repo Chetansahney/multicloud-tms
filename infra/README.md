@@ -69,7 +69,7 @@ Everything runs from GitHub Actions with OIDC; nothing costly starts without you
 2. From `tofu output`, add repository **variables** (Settings → Secrets and variables → Actions → Variables):
    `AWS_ROLE_ARN`, `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`,
    `TF_STATE_BUCKET` (= `aws_state_bucket`), `AZ_STATE_RG` (= `trackflow-tfstate`),
-   `AZ_STATE_SA` (= `azure_state_storage_account`), `TM_DNS_NAME` (= `trackflow-dev-sahil`),
+   `AZ_STATE_SA` (= `azure_state_storage_account`), `TM_DNS_NAME` (a globally unique name, e.g. `trackflow-dev-<yourname>`),
    and optionally `AWS_ADMIN_USER_ARN` (your `tms-admin` ARN, for local `kubectl`).
 3. Settings → Environments: create **`cloud`** with yourself as required reviewer, and **`cloud-teardown`** with no rules.
 
@@ -84,7 +84,7 @@ Everything runs from GitHub Actions with OIDC; nothing costly starts without you
 
 The destroy job deletes the ingress load balancers (created by Kubernetes, not OpenTofu) before `tofu destroy`. A scheduled run at 02:00 IST destroys anything still up; set the `KEEP_UP` variable to `true` to pause it while reviewers need the live environment, and delete it afterwards. Set the `CLOUD_UP` variable to `true` during a session if every green Backend CI on `main` should redeploy automatically.
 
-**Verified on 2026-10-10** (first session): all four clusters healthy behind `trackflow-dev-sahil.trafficmanager.net`; scaling the us-east-1 backend to 0 moved traffic to us-west-2 in 38 s, and stopping both AWS backends moved it to Azure East Asia in 45 s (login works there against Azure's own database).
+**Verified on 2026-10-10** (first session): all four clusters healthy behind the Traffic Manager URL; scaling the us-east-1 backend to 0 moved traffic to us-west-2 in 38 s, and stopping both AWS backends moved it to Azure East Asia in 45 s (login works there against Azure's own database).
 
 **New-account limits met on that run:** the AWS Free plan only launches Free-plan-eligible instance types (hence c7i-flex.large), and new AWS accounts cannot create load balancers or CloudFront until AWS Support enables them (hence the node-IP ingress on AWS and `enable_cloudfront = false`).
 
